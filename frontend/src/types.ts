@@ -1,0 +1,14 @@
+export type Site = { id:number; name:string; address:string; whatsapp:string; image:string };
+export type Space = { id:number; field_id:number; site_id:number; name:string; modality:number; sectors:string };
+export type Catalog = { sites:Site[]; spaces:Space[] };
+export type Slot = { spaceId:number; hour:number; price:number; available:boolean };
+export type Availability = { spaces:Space[]; slots:Slot[]; openHour:number; closeHour:number };
+export type Status = 'NEW'|'CONTACTED'|'AWAITING_PAYMENT'|'RESERVED'|'UNAVAILABLE'|'WITHDRAWN';
+export type BookingRequest = { id:number; code:string; customer_id:number; customer_name:string; phone:string; email:string|null; space_id:number; space_name:string; modality:number; site_id:number; site_name:string; date:string; start_hour:number; end_hour:number; quoted_price:number; agreed_price:number; status:Status; notes:string; created_at:string; updated_at:string; whatsapp:string; source:string };
+export type RequestDetail = BookingRequest & { history:{id:number;actor:string;action:string;details:string;created_at:string}[]; payments:{amount:number;method:string;reference:string;verified_at:string}[]; competing:{id:number;code:string;name:string;status:Status}[]; customer_history:{id:number;code:string;date:string;status:Status;agreed_price:number}[] };
+export type User = {id:number;name:string;username:string;role:string};
+export const statuses:Record<Status,string> = {NEW:'Nueva',CONTACTED:'En conversación',AWAITING_PAYMENT:'Pendiente de pago',RESERVED:'Reserva confirmada',UNAVAILABLE:'Sin disponibilidad',WITHDRAWN:'Desistida'};
+export const money = (n:number) => new Intl.NumberFormat('es-PE',{style:'currency',currency:'PEN',maximumFractionDigits:2}).format(n);
+export const hour = (n:number) => `${String(n).padStart(2,'0')}:00`;
+export const today = () => new Intl.DateTimeFormat('en-CA',{timeZone:'America/Lima',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+export const dateLabel = (s:string) => new Date(s+'T12:00:00').toLocaleDateString('es-PE',{weekday:'short',day:'numeric',month:'short'});
