@@ -23,8 +23,8 @@ public class ApiController {
     private final HttpSessionSecurityContextRepository contexts;
     public ApiController(BookingService service, AuthenticationManager auth, HttpSessionSecurityContextRepository contexts) { this.service=service; this.auth=auth; this.contexts=contexts; }
     public record Login(@NotBlank String username,@NotBlank String password) {}
-    public record NewRequest(@NotBlank @Size(max=120) String name,@NotBlank @Size(max=20) String phone,@Email @Size(max=180) String email,@Positive long spaceId,@NotNull LocalDate date,@Min(0) @Max(23) int startHour,@Min(1) @Max(24) int endHour) {}
-    public record UpdateRequest(@Positive long spaceId,@NotNull LocalDate date,@Min(0) @Max(23) int startHour,@Min(1) @Max(24) int endHour,@NotBlank String status,@DecimalMin("0") @DecimalMax("99999999") BigDecimal agreedPrice,@Size(max=500) String reason,@NotNull @Size(max=2000) String notes) {}
+    public record NewRequest(@NotBlank @Size(max=120) String name,@NotBlank @Size(max=30) String phone,@Email @Size(max=180) String email,@Positive long spaceId,@NotNull LocalDate date,@Min(0) @Max(20) int startHour,@Min(1) @Max(21) int endHour) {}
+    public record UpdateRequest(@Positive long spaceId,@NotNull LocalDate date,@Min(0) @Max(25) int startHour,@Min(1) @Max(24) int endHour,@NotBlank String status,@DecimalMin("0") @DecimalMax("99999999") BigDecimal agreedPrice,@Size(max=600) String reason,@NotNull @Size(max=2000) String notes) {}
     public record ConfirmRequest(@NotNull @DecimalMin("0") BigDecimal amount,@NotBlank String method,@Size(max=120) String reference) {}
     @GetMapping("/csrf") Object csrf(CsrfToken token) { return Map.of("token",token.getToken(),"header",token.getHeaderName()); }
     @PostMapping("/login") Object login(@Valid @RequestBody Login login,HttpServletRequest request,HttpServletResponse response) {
